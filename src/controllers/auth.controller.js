@@ -1,7 +1,7 @@
 const User = require('../models/auth.model');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+// const bcrypt = require('bcryptjs');
+// const crypto = require('crypto');
 
 /**
  * @desc    Register new user

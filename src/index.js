@@ -1,4 +1,5 @@
 const express = require('express');
+
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -6,6 +7,8 @@ const dotenv = require('dotenv').config();
 const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./config/database');
+const authRoutes = require('./routes/auth.routes');
+//connect to database
 connectDB();
 const app = express();
 
@@ -15,23 +18,12 @@ app.use(morgan('dev')); // Logging
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Import routes
-const indexRoutes = require('./routes/index.route');
-const authRoutes = require('./routes/auth.routes');
-
 // Configure CORS for all routes
 app.use(cors({
     origin: '*', // In production, replace with your Flutter app's domain
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
-app.use('/', indexRoutes);
-app.use('/auth', authRoutes); // Removed /api prefix to match Flutter client
-
-
-
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -42,14 +34,16 @@ app.use((err, req, res, next) => {
     });
 });
 
+// Routes
+app.use('/auth', authRoutes)
+
 const PORT = 8000;
-app.listen(PORT,'0.0.0.0', () => {
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-// (async () => {
-//     const port = await getPort({ port: 8000 });
-//     app.listen(port, () => {
-//         console.log(`Server running on port ${port}`);
-//     });
-// })();
+app.get('/', (req, res) => {
+    res.json({
+        message: 'The server is running '
+    });
+});
