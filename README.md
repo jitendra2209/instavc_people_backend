@@ -32,6 +32,8 @@ instavc_people_backend/
   - helmet - Security headers
   - morgan - HTTP request logger
   - dotenv - Environment variables
+  - swagger-jsdoc - OpenAPI/Swagger documentation
+  - swagger-ui-express - Swagger UI for API documentation
 
 ## Setup and Installation
 
@@ -84,3 +86,27 @@ instavc_people_backend/
 ## Development
 
 The project uses nodemon for development, which automatically restarts the server when files change.
+
+## API Documentation
+
+The API is documented using OpenAPI/Swagger specification. Once the server is running, you can access the interactive API documentation at:
+
+```
+http://localhost:8000/api-docs
+```
+
+The documentation includes:
+- Detailed endpoint descriptions
+- Request/response schemas
+- Authentication requirements
+- Example requests and responses
+- Interactive API testing interface
+
+### Available Endpoints
+
+- **Authentication**
+  - POST `/api/auth/signup` - Register a new user
+  - POST `/api/auth/login` - Login user and get JWT token
+  - GET `/api/auth/currentUser` - Get current user info (protected)
+  - POST `/api/auth/forgotpassword` - Request password reset OTP
+  - POST `/api/auth/resetpassword` - Reset password using OTP
