@@ -1,13 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const {
+import express from 'express';
+import {
     signup,
     login,
     getMe,
     forgotPassword,
     resetPassword
-} = require('../controllers/auth.controller');
-const { protect } = require('../middleware/authMiddleware');
+} from '../controllers/auth.controller.js';
+import { authenticateToken } from '../middleware/authMiddleware.js';
+
+const router = express.Router();
 
 /**
  * @swagger
@@ -156,7 +157,7 @@ router.post('/login', login);
  *       500:
  *         description: Server error
  */
-router.get('/currentUser', protect, getMe);
+router.get('/currentUser', authenticateToken, getMe);
 
 /**
  * @swagger
@@ -238,4 +239,4 @@ router.post('/forgotpassword', forgotPassword);
  */
 router.post('/resetpassword', resetPassword);
 
-module.exports = router;
+export default router;

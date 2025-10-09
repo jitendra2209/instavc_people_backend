@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/auth.model');
+import jwt from 'jsonwebtoken';
+import User from '../models/auth.model.js';
 
-const protect = async (req, res, next) => {
+export const authenticateToken = async (req, res, next) => {
     try {
         // Check if authorization header exists and has Bearer token
         if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer')) {
@@ -45,5 +45,3 @@ const protect = async (req, res, next) => {
         });
     }
 };
-
-module.exports = { protect };

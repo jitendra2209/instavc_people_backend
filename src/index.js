@@ -1,14 +1,17 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const dotenv = require('dotenv').config();
-const helmet = require('helmet');
-const morgan = require('morgan');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./config/swagger');
-const connectDB = require('./config/database');
-const authRoutes = require('./routes/auth.routes');
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger.js';
+import connectDB from './config/database.js';
+import authRoutes from './routes/auth.routes.js';
+import contentRoutes from './routes/content.routes.js';
+
+dotenv.config();
 
 //connect to database
 connectDB();
@@ -33,6 +36,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/content', contentRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

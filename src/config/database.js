@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const connectDB = async () => {
     try {
@@ -11,8 +11,6 @@ const connectDB = async () => {
             serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
             socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
             connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
-            serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
-            socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
         });
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
@@ -30,4 +28,4 @@ const connectDB = async () => {
     }
 };
 
-module.exports = connectDB;
+export default connectDB;

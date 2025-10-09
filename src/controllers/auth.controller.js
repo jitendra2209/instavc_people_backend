@@ -1,14 +1,21 @@
-const User = require('../models/auth.model');
-const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcryptjs');
-// const crypto = require('crypto');
+import User from '../models/auth.model.js';
+import jwt from 'jsonwebtoken';
+
+// Generate JWT Token
+const generateToken = (userId) => {
+    return jwt.sign(
+        { id: userId },
+        process.env.JWT_SECRET || 'your-default-secret-key-change-in-production',
+        { expiresIn: '30d' }
+    );
+};
 
 /**
  * @desc    Register new user
  * @route   POST /api/auth/signup
  * @access  Public
  */
-const signup = async (req, res) => {
+export const signup = async (req, res) => {
     try {
         const { email, password, name } = req.body;
 
@@ -65,7 +72,7 @@ const signup = async (req, res) => {
  * @route   POST /api/auth/login
  * @access  Public
  */
-const login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -125,7 +132,7 @@ const login = async (req, res) => {
  * @route   GET /api/auth/me
  * @access  Private
  */
-const getMe = async (req, res) => {
+export const getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
         res.json({
@@ -152,7 +159,7 @@ const getMe = async (req, res) => {
  * @route   POST /api/auth/forgotpassword
  * @access  Public
  */
-const forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
 
@@ -200,7 +207,7 @@ const forgotPassword = async (req, res) => {
  * @route   POST /api/auth/resetpassword
  * @access  Public
  */
-const resetPassword = async (req, res) => {
+export const resetPassword = async (req, res) => {
     try {
         const { email, otp, newPassword } = req.body;
 
@@ -244,21 +251,4 @@ const resetPassword = async (req, res) => {
             error: error.message
         });
     }
-};
-
-// Generate JWT Token
-const generateToken = (userId) => {
-    return jwt.sign(
-        { id: userId },
-        process.env.JWT_SECRET || 'your-default-secret-key-change-in-production',
-        { expiresIn: '30d' }
-    );
-};
-
-module.exports = {
-    signup,
-    login,
-    getMe,
-    forgotPassword,
-    resetPassword
 };

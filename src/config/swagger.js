@@ -1,4 +1,4 @@
-const swaggerJsdoc = require('swagger-jsdoc');
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const options = {
   definition: {
@@ -88,6 +88,10 @@ const options = {
       {
         name: 'Auth',
         description: 'Authentication and authorization endpoints'
+      },
+      {
+        name: 'Content',
+        description: 'AI-powered content generation endpoints'
       }
     ]
   },
@@ -96,4 +100,4 @@ const options = {
 
 const swaggerSpec = swaggerJsdoc(options);
 
-module.exports = swaggerSpec;
+export default swaggerSpec;
