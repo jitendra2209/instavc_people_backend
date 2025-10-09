@@ -52,7 +52,7 @@ const { protect } = require('../middleware/authMiddleware');
 
 /**
  * @swagger
- * /api/auth/signup:
+ * /auth/signup:
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
@@ -89,7 +89,7 @@ router.post('/signup', signup);
 
 /**
  * @swagger
- * /api/auth/login:
+ * /auth/login:
  *   post:
  *     summary: Login user and return JWT token
  *     tags: [Auth]
@@ -123,7 +123,7 @@ router.post('/login', login);
 
 /**
  * @swagger
- * /api/auth/currentUser:
+ * /auth/currentUser:
  *   get:
  *     summary: Get current logged in user
  *     tags: [Auth]
@@ -160,7 +160,7 @@ router.get('/currentUser', protect, getMe);
 
 /**
  * @swagger
- * /api/auth/forgotpassword:
+ * /auth/forgotpassword:
  *   post:
  *     summary: Send password reset OTP
  *     tags: [Auth]
@@ -198,7 +198,7 @@ router.post('/forgotpassword', forgotPassword);
 
 /**
  * @swagger
- * /api/auth/resetpassword:
+ * /auth/resetpassword:
  *   post:
  *     summary: Reset password using OTP
  *     tags: [Auth]

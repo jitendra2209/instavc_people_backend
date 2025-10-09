@@ -232,6 +232,7 @@ const resetPassword = async (req, res) => {
         await user.save();
 
         res.json({
+            statusCode: res.statusCode,
             success: true,
             message: 'Password reset successful'
         });

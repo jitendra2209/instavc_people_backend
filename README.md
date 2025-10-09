@@ -28,12 +28,15 @@ instavc_people_backend/
 - MongoDB - Database
 - Mongoose - MongoDB object modeling
 - Additional packages:
-  - cors - CORS middleware
-  - helmet - Security headers
-  - morgan - HTTP request logger
-  - dotenv - Environment variables
-  - swagger-jsdoc - OpenAPI/Swagger documentation
-  - swagger-ui-express - Swagger UI for API documentation
+  - bcryptjs (^2.4.3) - Password hashing
+  - body-parser (^1.20.2) - Request body parsing
+  - cors (^2.8.5) - CORS middleware
+  - dotenv (^16.6.1) - Environment variables
+  - helmet (^7.1.0) - Security headers
+  - jsonwebtoken (^9.0.2) - JWT authentication
+  - morgan (^1.10.0) - HTTP request logger
+  - swagger-jsdoc (^6.2.8) - OpenAPI/Swagger documentation
+  - swagger-ui-express (^5.0.1) - Swagger UI for API documentation
 
 ## Setup and Installation
 
@@ -105,8 +108,32 @@ The documentation includes:
 ### Available Endpoints
 
 - **Authentication**
-  - POST `/api/auth/signup` - Register a new user
-  - POST `/api/auth/login` - Login user and get JWT token
-  - GET `/api/auth/currentUser` - Get current user info (protected)
-  - POST `/api/auth/forgotpassword` - Request password reset OTP
-  - POST `/api/auth/resetpassword` - Reset password using OTP
+  - POST `/auth/signup`
+    - Register a new user with name, email, and password
+    - Returns user data and JWT token on success
+    - Validates email format and password strength
+    - Handles duplicate email addresses
+
+  - POST `/auth/login`
+    - Authenticate user with email and password
+    - Returns JWT token and user profile on success
+    - Implements rate limiting for security
+    - Returns detailed error messages for troubleshooting
+
+  - GET `/auth/currentUser`
+    - Protected route - requires valid JWT token
+    - Returns current user's profile information
+    - Validates token expiration and signature
+    - Used for session persistence in the app
+
+  - POST `/auth/forgotpassword`
+    - Initiates password reset flow
+    - Requires user's registered email
+    - Generates and sends OTP for verification
+    - OTP has configurable expiration time
+
+  - POST `/auth/resetpassword`
+    - Completes password reset process
+    - Requires email, OTP, and new password
+    - Validates OTP expiration and correctness
+    - Updates password and invalidates old tokens
