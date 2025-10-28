@@ -111,3 +111,49 @@ export const getUserContent = async (req, res) => {
         });
     }
 };
+
+// Get all contents from all users (admin/public endpoint)
+export const getAllContents = async (req, res) => {
+    console.log('getAllContents function called');
+    try {
+        // Get query parameters for pagination
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        // Get total count for pagination info
+        const totalContents = await Content.countDocuments();
+        
+        // Fetch contents with pagination and populate user info
+        const contents = await Content.find()
+            .populate('userId', 'name email') // Populate user details (name and email only)
+            .sort({ createdAt: -1 }) // Sort by newest first
+            .skip(skip)
+            .limit(limit);
+
+        // Calculate pagination info
+        const totalPages = Math.ceil(totalContents / limit);
+        const hasNextPage = page < totalPages;
+        const hasPrevPage = page > 1;
+
+        return res.status(200).json({
+            success: true,
+            data: contents,
+            pagination: {
+                currentPage: page,
+                totalPages,
+                totalContents,
+                hasNextPage,
+                hasPrevPage,
+                limit
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching all contents:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Error fetching all contents',
+            error: error.message
+        });
+    }
+};

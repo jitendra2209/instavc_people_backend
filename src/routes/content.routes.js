@@ -1,6 +1,6 @@
 import express from 'express';
 import { authenticateToken } from '../middleware/authMiddleware.js';
-import { generateContent, getContentById, getUserContent } from '../controllers/content.controller.js';
+import { generateContent, getContentById, getUserContent, getAllContents } from '../controllers/content.controller.js';
 
 const router = express.Router();
 
@@ -52,7 +52,63 @@ router.post('/generate', authenticateToken, generateContent);
  *       500:
  *         description: Server error
  */
-router.get('/user/all', authenticateToken, getUserContent);
+router.get('/user/allContents', authenticateToken, getUserContent);
+
+/**
+ * @swagger
+ * /content/all:
+ *   get:
+ *     summary: Get all content from all users with pagination
+ *     tags: [Content]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *           default: 10
+ *         description: Number of items per page
+ *     responses:
+ *       200:
+ *         description: All content retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     currentPage:
+ *                       type: integer
+ *                     totalPages:
+ *                       type: integer
+ *                     totalContents:
+ *                       type: integer
+ *                     hasNextPage:
+ *                       type: boolean
+ *                     hasPrevPage:
+ *                       type: boolean
+ *                     limit:
+ *                       type: integer
+ *       500:
+ *         description: Server error
+ */
+router.get('/allContents', getAllContents);
 
 /**
  * @swagger

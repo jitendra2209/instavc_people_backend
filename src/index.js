@@ -10,6 +10,7 @@ import swaggerSpec from './config/swagger.js';
 import connectDB from './config/database.js';
 import authRoutes from './routes/auth.routes.js';
 import contentRoutes from './routes/content.routes.js';
+import googleAuthRoutes from './routes/googleAuth.routes.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/auth', googleAuthRoutes); // Google OAuth routes
 app.use('/content', contentRoutes);
 
 // Error handling middleware
@@ -48,7 +50,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`API Documentation available at http://localhost:${PORT}/api-docs`);
